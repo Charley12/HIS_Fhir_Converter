@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: fhir-mapping-assistant
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/fhir_mapping}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+qdrant:
+  host: ${QDRANT_HOST:localhost}
+  port: ${QDRANT_PORT:6334}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+ai:
+  ollama:
+    base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
+    model-name: llama3
+
+---
+spring:
+  config:
+    activate:
+      on-profile: cloud
+
+ai:
+  vertex-ai:
+    project-id: ${GOOGLE_VERTEX_AI_PROJECT_ID:}
+    location: ${GOOGLE_VERTEX_AI_LOCATION:us-central1}
+    model-name: gemini-1.5-pro-preview-0409
